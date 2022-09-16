@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
+import img from '../assets/bacground/car-in-a-canyon.jpg';
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -27,7 +28,15 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
-	font-family: 'Raleway', sans-serif;
+	height: 100vh;
+	background-size: cover;
+	background-position: center;
+	background-image: url(${img});
+  	color: ${({ theme }) => theme.colors.grey};
+  	font-family: 'RobotoDraft', 'Roboto', sans-serif;
+	font-size: 14px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 	line-height: 1;
 }
 ol, ul {
@@ -46,4 +55,3 @@ table {
 	border-spacing: 0;
 }
 `;
-export default GlobalStyle;
