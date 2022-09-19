@@ -43,6 +43,7 @@ export const Container = styled.div`
 
         .title,
         .input-container,
+        .error-container,
         .button-container {
           left: 0;
           opacity: 1;
@@ -66,8 +67,12 @@ export const Container = styled.div`
           }
         }
 
-        .button-container {
+        .error-container {
           transition-delay: 0.7s;
+        }
+
+        .button-container {
+          transition-delay: 0.8s;
         }
       }
     }
@@ -104,6 +109,11 @@ export const Card = styled.div`
   }
 
   /* Inputs */
+  .error-container {
+    position: relative;
+    margin-top: 30px;
+  }
+
   .input-container {
     position: relative;
     margin: 0 60px 50px;
@@ -262,7 +272,7 @@ export const Card = styled.div`
       transition: 0.3s ease;
 
       &:hover {
-        color: ${({ theme }) => theme.colors.gray};
+        color: ${({ theme }) => theme.colors.accent};
       }
     }
   }
@@ -308,6 +318,7 @@ export const Card = styled.div`
 
     .title,
     .input-container,
+    .error-container,
     .button-container {
       left: 100px;
       opacity: 0;
@@ -340,7 +351,8 @@ export const Card = styled.div`
     }
 
     /* Input */
-    .input-container {
+    .input-container,
+    .error-container {
       input {
         color: ${({ theme }) => theme.colors.white};
 
@@ -370,6 +382,12 @@ export const Card = styled.div`
 
       .bar {
         background: rgba(255, 255, 255, 0.8);
+      }
+      span {
+        color: ${({ theme }) => theme.colors.white};
+        font-weight: bold;
+        text-align: center;
+        line-height: 14px;
       }
     }
 
