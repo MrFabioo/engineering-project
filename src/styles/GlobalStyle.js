@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import img from '../assets/bacground/car-in-a-canyon.jpg';
+import img from '../assets/background/car-in-a-canyon.jpg';
 
 export const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -31,7 +31,7 @@ body {
 	height: 100vh;
 	background-size: cover;
 	background-position: center;
-	background-image: url(${img});
+	background-image: url(${img}); // idk if it's here
   	color: ${({ theme }) => theme.colors.grey};
   	font-family: 'RobotoDraft', 'Roboto', sans-serif;
 	font-size: 14px;

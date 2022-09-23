@@ -1,13 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import AppProviders from './providers/AppProviders';
-import Root from './views/Root';
+import App from './views/App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AppProviders>
-      <Root />
-    </AppProviders>
+    <App />
   </React.StrictMode>
 );
