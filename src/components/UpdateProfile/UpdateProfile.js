@@ -5,21 +5,20 @@ import {
   InputContainer,
   Button,
   Links,
-} from './RegisterPanel.styles';
+} from './UpdateProfile.styles';
 import { useAuth } from '../../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function RegisterPanel() {
+export default function UpdateProfile() {
   // OPCION WITCH TYPE='EMAIL'
   // const [validEmail, setValidEmail] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-
-  const { signup } = useAuth();
+  const { currentUser, updateEmail, updatePassword } = useAuth();
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
@@ -29,11 +28,30 @@ export default function RegisterPanel() {
       return setError('Passwords do not match');
     }
 
+    const promises = [];
+    if (emailRef.current.value !== currentUser.email) {
+      promises.push(updateEmail(emailRef.current.value));
+    }
+
+    if (passwordRef.current.value) {
+      promises.push(updatePassword(passwordRef.current.value));
+    }
+
+    Promise.all(promises)
+      .then(() => {
+        navigate('/');
+      })
+      .catch(() => {
+        setError('Failed to update account');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
     try {
       setError('');
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
-      navigate('/login');
+      // await signup(emailRef.current.value, passwordRef.current.value);
     } catch {
       setError('Failed to create an account');
     }
@@ -43,8 +61,9 @@ export default function RegisterPanel() {
   return (
     <>
       <Wrapper>
-        <Title>Register</Title>
+        <Title>Update Profile</Title>
         {error && <p>{error}</p>}
+        {message && <p>{message}</p>}
         <form onSubmit={handleSubmit}>
           <InputContainer>
             {/* OPCION WITCH TYPE='EMAIL' */}
@@ -58,24 +77,31 @@ export default function RegisterPanel() {
             }}
           /> */}
             {/* OCPION WITCH TYPE='TEXT' */}
-            <input type='text' ref={emailRef} required />
+            <input
+              type='text'
+              ref={emailRef}
+              required
+              defaultValue={currentUser.email}
+            />
             <label htmlFor='email'>Email</label>
             <div className='bar'></div>
           </InputContainer>
           <InputContainer>
-            <input type='password' ref={passwordRef} required />
+            <input type='password' ref={passwordRef} />
             <label htmlFor='password'>Password</label>
             <div className='bar'></div>
           </InputContainer>
           <InputContainer>
-            <input type='password' ref={passwordConfirmRef} required />
-            <label htmlFor='password'>Repeat Password</label>
+            <input type='password' ref={passwordConfirmRef} />
+            <label htmlFor='password'>Password Confirmation</label>
             <div className='bar'></div>
           </InputContainer>
-          <Button disabled={loading}>next</Button>
+          <Button disabled={loading} type='submit'>
+            Update
+          </Button>
           <Links>
             <p>
-              Have account? <Link to='/login'>Login</Link>
+              <Link to='/'>Cancel</Link>
             </p>
           </Links>
         </form>

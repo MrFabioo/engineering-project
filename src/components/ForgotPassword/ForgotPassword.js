@@ -5,46 +5,41 @@ import {
   InputContainer,
   Button,
   Links,
-} from './RegisterPanel.styles';
+} from './ForgotPassword.styles';
 import { useAuth } from '../../contexts/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-export default function RegisterPanel() {
+export default function ForgotPassword() {
   // OPCION WITCH TYPE='EMAIL'
   // const [validEmail, setValidEmail] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-
   const emailRef = useRef();
-  const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
-
-  const { signup } = useAuth();
-  const navigate = useNavigate();
+  const { resetPassword } = useAuth();
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError('Passwords do not match');
-    }
-
     try {
+      setMessage('');
       setError('');
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
-      navigate('/login');
+      await resetPassword(emailRef.current.value);
+      setMessage('Check your emial for further instruction');
     } catch {
-      setError('Failed to create an account');
+      setError('Failed to reset password');
     }
+
     setLoading(false);
   }
 
   return (
     <>
       <Wrapper>
-        <Title>Register</Title>
+        <Title>Password Reset</Title>
         {error && <p>{error}</p>}
+        {message && <p>{message}</p>}
         <form onSubmit={handleSubmit}>
           <InputContainer>
             {/* OPCION WITCH TYPE='EMAIL' */}
@@ -62,20 +57,15 @@ export default function RegisterPanel() {
             <label htmlFor='email'>Email</label>
             <div className='bar'></div>
           </InputContainer>
-          <InputContainer>
-            <input type='password' ref={passwordRef} required />
-            <label htmlFor='password'>Password</label>
-            <div className='bar'></div>
-          </InputContainer>
-          <InputContainer>
-            <input type='password' ref={passwordConfirmRef} required />
-            <label htmlFor='password'>Repeat Password</label>
-            <div className='bar'></div>
-          </InputContainer>
-          <Button disabled={loading}>next</Button>
+          <Button disabled={loading} type='submit'>
+            Reset
+          </Button>
           <Links>
             <p>
-              Have account? <Link to='/login'>Login</Link>
+              <Link to='/login'>Login</Link>
+            </p>
+            <p>
+              Need account? <Link to='/register'>Register</Link>
             </p>
           </Links>
         </form>

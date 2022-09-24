@@ -3,6 +3,11 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   box-sizing: border-box;
   position: relative;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  max-width: ${({ theme }) => theme.pens.maxWidth};
+  width: 100%;
   background: ${({ theme }) => theme.colors.accent};
   border-radius: 5px;
   padding: 40px 0;

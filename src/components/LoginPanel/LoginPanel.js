@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Wrapper,
   Title,
@@ -6,16 +6,43 @@ import {
   Button,
   Links,
 } from './LoginPanel.styles';
+import { useAuth } from '../../contexts/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function LoginPanel() {
   // OPCION WITCH TYPE='EMAIL'
   // const [validEmail, setValidEmail] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
+  const { login } = useAuth();
+
+  const navigate = useNavigate();
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      setError('');
+      setLoading(true);
+      await login(emailRef.current.value, passwordRef.current.value);
+      navigate('/');
+    } catch {
+      setError('Failed to login');
+    }
+
+    setLoading(false);
+  }
 
   return (
     <>
       <Wrapper>
         <Title>Login</Title>
-        <form>
+        {error && <p>{error}</p>}
+        <form onSubmit={handleSubmit}>
           <InputContainer>
             {/* OPCION WITCH TYPE='EMAIL' */}
             {/* <input
@@ -28,22 +55,24 @@ export default function LoginPanel() {
             }}
           /> */}
             {/* OCPION WITCH TYPE='TEXT' */}
-            <input type='text' required />
+            <input type='text' ref={emailRef} required />
             <label htmlFor='email'>Email</label>
             <div className='bar'></div>
           </InputContainer>
           <InputContainer>
-            <input type='password' required />
+            <input type='password' ref={passwordRef} required />
             <label htmlFor='password'>Password</label>
             <div className='bar'></div>
           </InputContainer>
-          <Button>ok</Button>
+          <Button disabled={loading} type='submit'>
+            ok
+          </Button>
           <Links>
             <p>
-              <a href='#'>Forgot your password?</a>
+              <Link to='/forgot-password'>Forgot your password?</Link>
             </p>
             <p>
-              Need account? <a href='#'>Register</a>
+              Need account? <Link to='/register'>Register</Link>
             </p>
           </Links>
         </form>
