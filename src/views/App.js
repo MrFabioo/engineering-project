@@ -5,6 +5,7 @@ import { theme } from '../styles/theme';
 import { Wrapper } from './App.styles';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RegisterPanel from '../components/RegisterPanel/RegisterPanel';
+import { AuthProvider } from '../contexts/AuthContext';
 
 function App() {
   return (
@@ -12,10 +13,12 @@ function App() {
       <GlobalStyle />
       <Wrapper>
         <Router>
-          <Routes>
-            <Route exact path='/login' element={<LoginPanel />} />
-            <Route path='/register' element={<RegisterPanel />} />
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              <Route exact path='/login' element={<LoginPanel />} />
+              <Route path='/register' element={<RegisterPanel />} />
+            </Routes>
+          </AuthProvider>
         </Router>
       </Wrapper>
     </ThemeProvider>
