@@ -6,6 +6,7 @@ import {
   Button,
   Links,
 } from './RegisterPanel.styles';
+import Alert from '../Alerts/Alert';
 import { useAuth } from '../../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -42,9 +43,9 @@ export default function RegisterPanel() {
 
   return (
     <>
+      {error && <Alert error={error} />}
       <Wrapper>
         <Title>Register</Title>
-        {error && <p>{error}</p>}
         <form onSubmit={handleSubmit}>
           <InputContainer>
             {/* OPCION WITCH TYPE='EMAIL' */}

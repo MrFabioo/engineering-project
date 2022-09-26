@@ -6,6 +6,7 @@ import {
   Button,
   Links,
 } from './ForgotPassword.styles';
+import Alert from '../Alerts/Alert';
 import { useAuth } from '../../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 
@@ -36,9 +37,9 @@ export default function ForgotPassword() {
 
   return (
     <>
+      {error && <Alert error={error} />}
       <Wrapper>
         <Title>Password Reset</Title>
-        {error && <p>{error}</p>}
         {message && <p>{message}</p>}
         <form onSubmit={handleSubmit}>
           <InputContainer>

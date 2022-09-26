@@ -6,6 +6,7 @@ import {
   Button,
   Links,
 } from './UpdateProfile.styles';
+import Alert from '../Alerts/Alert';
 import { useAuth } from '../../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -60,9 +61,9 @@ export default function UpdateProfile() {
 
   return (
     <>
+      {error && <Alert error={error} />}
       <Wrapper>
         <Title>Update Profile</Title>
-        {error && <p>{error}</p>}
         {message && <p>{message}</p>}
         <form onSubmit={handleSubmit}>
           <InputContainer>

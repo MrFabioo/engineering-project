@@ -8,6 +8,7 @@ import {
 } from './LoginPanel.styles';
 import { useAuth } from '../../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import Alert from '../Alerts/Alert';
 
 export default function LoginPanel() {
   // OPCION WITCH TYPE='EMAIL'
@@ -39,9 +40,10 @@ export default function LoginPanel() {
 
   return (
     <>
+      {error && <Alert error={error} />}
       <Wrapper>
         <Title>Login</Title>
-        {error && <p>{error}</p>}
+
         <form onSubmit={handleSubmit}>
           <InputContainer>
             {/* OPCION WITCH TYPE='EMAIL' */}
